@@ -11,6 +11,7 @@ const typeDefs = gql`
         address:String,
         biography:String,
         avatar:String
+        posts:[Post]
         token:String
     }
     type Post{
@@ -31,7 +32,8 @@ const typeDefs = gql`
     }
     type Query{
         getUsers:[User]
-        getUser:User
+        getLoggedUser:User
+        getUser(id:ID):User
         checkAuth:User
         getPost(id:ID!):Post
         getPosts:[Post]

@@ -6,6 +6,8 @@ import PostItem from './components/PostItem'
 import ListPosts from './scenes/listPosts/ListPosts'
 import CreatePost from './scenes/createPost/CreatePost'
 import UpdateProfile from './scenes/updateProfile/UpdateProfile'
+import Profile from "./scenes/profile/Profile"
+import UserFeed from './scenes/userFeed/UserFeed'
 function HomePage() {
     const { loading, error, data } = useQuery(getPosts)
     const checkAuthResult = useQuery(checkAuth)
@@ -45,6 +47,7 @@ function HomePage() {
                                 <Route path="/" exact component={ListPosts}></Route>
                                 <Route path="/createPost" component={CreatePost}></Route>
                                 <Route path="/profile" component={UpdateProfile}></Route>
+                                <Route path="/user/:id" component={UserFeed}></Route>
                             </Switch>
                            
                         </div>

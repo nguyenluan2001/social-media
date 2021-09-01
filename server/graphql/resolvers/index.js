@@ -1,6 +1,7 @@
 const userResolvers = require("../resolvers/users")
 const postResolvers = require("../resolvers/post")
 const User = require("../../models/User")
+const Post = require("../../models/Post")
 module.exports = {
     Post: {
         user: async (parent, args) => await User.findOne({ _id: parent.userID }),
@@ -13,10 +14,15 @@ module.exports = {
             return users
         }
     },
-    Comment:{
-        user:async (parent,args)=>{
-            let user=await User.findOne({_id:parent.userID})
-            return {...user._doc}
+    User: {
+        posts: async (parent, args) => {
+            return await Post.find({ userID: parent._id })
+        }
+    },
+    Comment: {
+        user: async (parent, args) => {
+            let user = await User.findOne({ _id: parent.userID })
+            return { ...user._doc }
         }
     },
     Query: {

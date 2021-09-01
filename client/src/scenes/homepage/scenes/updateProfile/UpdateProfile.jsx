@@ -3,7 +3,7 @@ import { useFormik } from "formik"
 import { storage } from '../../../../services/firebase'
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { useQuery, useMutation } from "@apollo/client"
-import { getUser } from '../../../../graphql-client/query'
+import { getLoggedUser } from '../../../../graphql-client/query'
 import { updateProfile } from "../../../../graphql-client/mutation"
 const stylePreviewAvatar = {
     width: "300px",
@@ -13,7 +13,7 @@ const stylePreviewAvatar = {
 }
 function UpdateProfile() {
     const avatarRef = useRef()
-    const { loading, error, data } = useQuery(getUser)
+    const { loading, error, data } = useQuery(getLoggedUser)
     const [updateProfileMutation, dataMutation] = useMutation(updateProfile)
     const formik = useFormik({
         initialValues: {
@@ -46,7 +46,7 @@ function UpdateProfile() {
                                 biography: userInfo.biography,
                                 avatar: userInfo.avatar,
                             },
-                            refetchQueries: [{ query: getUser }]
+                            refetchQueries: [{ query: getLoggedUser }]
                         })
                     })
                 });
@@ -63,7 +63,7 @@ function UpdateProfile() {
                         biography: userInfo.biography,
                         avatar: userInfo.avatar,
                     },
-                    refetchQueries: [{ query: getUser }]
+                    refetchQueries: [{ query: getLoggedUser }]
                 })
             }
 
@@ -73,15 +73,15 @@ function UpdateProfile() {
 
     useEffect(() => {
         if (!loading) {
-            formik.setFieldValue("username", data?.getUser.username)
-            formik.setFieldValue("email", data?.getUser.email)
-            formik.setFieldValue("gender", data?.getUser.gender)
-            formik.setFieldValue("birthday", data?.getUser.birthday)
-            formik.setFieldValue("phone", data?.getUser.phone)
-            formik.setFieldValue("address", data?.getUser.address)
-            formik.setFieldValue("biography", data?.getUser.biography)
-            formik.setFieldValue("avatar", data?.getUser.avatar)
-            avatarRef.current.style.backgroundImage = `url(${data?.getUser.avatar})`
+            formik.setFieldValue("username", data?.getLoggedUser.username)
+            formik.setFieldValue("email", data?.getLoggedUser.email)
+            formik.setFieldValue("gender", data?.getLoggedUser.gender)
+            formik.setFieldValue("birthday", data?.getLoggedUser.birthday)
+            formik.setFieldValue("phone", data?.getLoggedUser.phone)
+            formik.setFieldValue("address", data?.getLoggedUser.address)
+            formik.setFieldValue("biography", data?.getLoggedUser.biography)
+            formik.setFieldValue("avatar", data?.getLoggedUser.avatar)
+            avatarRef.current.style.backgroundImage = `url(${data?.getLoggedUser.avatar})`
         }
     }, [loading])
     function handleAvatar(e) {

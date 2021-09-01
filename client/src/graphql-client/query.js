@@ -19,7 +19,9 @@ const getPosts = gql`
             body
             user
             {
+                _id
                 username
+                avatar
             }
             likes
             {
@@ -48,10 +50,10 @@ const checkAuth = gql`
         }
     }
 `
-const getUser = gql`
-    query getUser
+const getLoggedUser = gql`
+    query getLoggedUser
     {
-        getUser{
+        getLoggedUser{
             username
             email
             gender
@@ -63,4 +65,40 @@ const getUser = gql`
         }
     }
 `
-export { login, getPosts, checkAuth,getUser }
+const getUser = gql`
+    query getUser($id:ID)
+    {
+        getUser(id:$id)
+        {
+            username
+            email
+            gender
+            birthday
+            phone
+            address
+            biography
+            avatar
+            posts{
+                id
+                user{
+                    _id
+                    username
+                    avatar
+                }
+                body
+                likes{
+                    _id
+                    username
+                }
+                comments{
+                    user
+                    {
+                        username
+                    }
+                    content
+                }
+            }
+        }
+    }
+`
+export { login, getPosts, checkAuth, getLoggedUser,getUser }

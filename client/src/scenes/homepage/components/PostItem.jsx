@@ -46,23 +46,29 @@ function Postpost({ post, checkAuthResult }) {
             refetchQueries:[{quey:getPosts}]
         })
     }
+    console.log(checkAuthResult.data)
+    console.log(post)
     return (
-        <div className="col-4 mb-4">
+        <div className="col-12 mb-4">
             <div className="card">
                 <div className="card-body">
                     <div className="top-content d-flex justify-content-between">
                         <div className="user">
                             <p className="m-0"><strong>
-                                <Link to={`/user/${checkAuthResult.data.checkAuth._id}`}>{post.user.username}</Link>
+                                <Link to={`/user/${post.user._id}`}>{post.user.username}</Link>
                                 </strong></p>
                             <p className="m-0">2 hours</p>
                         </div>
-                        <img width="100px" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" />
+                        {
+                            post.user.avatar
+                            ?<img width="100px" src={post?.user?.avatar} alt="" />
+                            :<img width="100px" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cGVyc29ufGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80" alt="" />
+                        }
                     </div>
                     <div className="body">{post.body}</div>
                     <div class="btn-group mx-auto" role="group" aria-label="Basic example">
                         {
-                            post.likes.findIndex(item => item._id == checkAuthResult.data.checkAuth._id) != -1
+                            post.likes.findIndex(item => item._id == checkAuthResult?.data.checkAuth._id) != -1
                                 ? <button type="button" class="btn btn-primary" onClick={() => handleLikePost()}>
                                     Unlike
                                 </button>
@@ -75,7 +81,7 @@ function Postpost({ post, checkAuthResult }) {
                             Comments <span class="badge badge-light">{post.comments.length}</span>
                         </button>
                         {
-                            post.user.username == checkAuthResult.data.checkAuth.username
+                            post.user.username == checkAuthResult?.data.checkAuth.username
                                 ? <button className="btn btn-danger" onClick={()=>handleDeletePost()}>
                                     <FaTrashAlt></FaTrashAlt>
                                 </button> : ""

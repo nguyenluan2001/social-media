@@ -8,7 +8,7 @@ module.exports = {
             let users = await User.find()
             return users
         },
-        getUser:async (parent,args,context)=>{
+        getLoggedUser:async (parent,args,context)=>{
             let token = context.req.get("Authorization").split(" ")[1]
 
             let user = await checkAuth(token)
@@ -20,6 +20,9 @@ module.exports = {
             else {
                 throw new Error("Please login")
             }
+        },
+        getUser:async (parent,{id},context)=>{
+            return await User.findOne({_id:id})
         },
         async checkAuth(parent, args, { req }) {
             let token = req.headers.authorization.split(" ")[1]
